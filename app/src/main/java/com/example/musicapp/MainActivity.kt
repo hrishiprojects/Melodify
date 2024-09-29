@@ -23,14 +23,14 @@ class MainActivity : AppCompatActivity() {
         val retrofitData = retrofitBuilder.getData("eminem")
 
         retrofitData.enqueue(object : Callback<MyData> {
-            override fun onResponse(p0: Call<MyData>, p1: Response<MyData>) {
-              val dataList = response.body()
+            override fun onResponse(p0: Call<MyData>, response: Response<MyData?>) {
+              val dataList = response.body()?.data
                 val textView= findViewById<TextView>(R.id.helloText)
                 textView.text= dataList.toString()
-                Log.d("Tag:onResponse", "onResponse:"+respose.body())
+                Log.d("Tag:onResponse", "onResponse:"+ response.body())
             }
 
-            override fun onFailure(p0: Call<MyData>, p1: Throwable) {
+            override fun onFailure(p0: Call<MyData>, t: Throwable) {
                 Log.d("TAG: onFailure", "onFailure: " + t.message)
             }
         })
