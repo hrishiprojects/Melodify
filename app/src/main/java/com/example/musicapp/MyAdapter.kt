@@ -1,6 +1,7 @@
 package com.example.musicapp
 
 import android.app.Activity
+import android.media.MediaPlayer
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.view.LayoutInflater
+import androidx.core.net.toUri
+import com.squareup.picasso.Picasso
 
 class MyAdapter(val context:Activity , val dataList: List<Data>):
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
@@ -23,7 +26,23 @@ class MyAdapter(val context:Activity , val dataList: List<Data>):
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        TODO("Not yet implemented")
+       val currentData = dataList[position]
+
+        val mediaPlayer = MediaPlayer.create(context,currentData.preview.toUri())
+        holder.title.text= currentData.title
+
+        Picasso.get().load(currentData.album.cover).into(holder.image);
+
+        holder.play.setOnClickListener{
+            mediaPlayer.start()
+        }
+
+        holder.pause.setOnClickListener{
+            mediaPlayer.stop()
+        }
+
+
+
     }
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val image: ImageView
